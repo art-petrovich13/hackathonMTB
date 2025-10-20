@@ -5,6 +5,9 @@ class TestResult {
   final List<String> recommendedPositions;
   final List<String> strengths;
   final List<String> improvements;
+  final List<String> nextSteps;
+  final String primaryColor;
+  final String secondaryColor;
 
   TestResult({
     required this.careerField,
@@ -13,5 +16,8 @@ class TestResult {
     required this.recommendedPositions,
     required this.strengths,
     required this.improvements,
+    required this.nextSteps,
+    required this.primaryColor,
+    required this.secondaryColor,
   });
 }
