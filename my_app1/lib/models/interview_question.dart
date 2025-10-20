@@ -4,6 +4,7 @@ class InterviewQuestion {
   final String category;
   final List<String> tips;
   final String idealAnswer;
+  final List<String> keywords;
 
   InterviewQuestion({
     required this.id,
@@ -11,5 +12,6 @@ class InterviewQuestion {
     required this.category,
     required this.tips,
     required this.idealAnswer,
+    this.keywords = const [],
   });
 }
