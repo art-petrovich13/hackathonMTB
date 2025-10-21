@@ -75,6 +75,33 @@ class HomeScreen extends StatelessWidget {
                         _actionButton(Icons.credit_card, 'Оплатить', primaryColor),
                       ],
                     ),
+                    const SizedBox(height: 12),
+                    // Temporary navigation buttons to other screens (CareerHub & Savings)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => Navigator.pushNamed(context, '/career'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(10)),
+                              child: const Center(child: Text('Go to Career', style: TextStyle(color: Colors.white))),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => Navigator.pushNamed(context, '/savings'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(10)),
+                              child: const Center(child: Text('Go to Savings', style: TextStyle(color: Colors.white))),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
