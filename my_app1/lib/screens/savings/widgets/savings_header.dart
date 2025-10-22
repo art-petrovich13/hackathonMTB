@@ -26,30 +26,74 @@ class SavingsHeader extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Left: title column with back arrow aligned to title baseline
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Общий баланс карты Kopym',
-                        style: TextStyle(color: Colors.white70, fontSize: 14)),
-                    const SizedBox(height: 6),
-                    Text('${totalBalance.toStringAsFixed(0)} BYN',
-                        style: const TextStyle(
+                    // Row containing back button and title
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Back arrow slightly raised by center alignment
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
                             color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold)),
+                          ),
+                          onPressed: () => Navigator.maybePop(context),
+                          tooltip: 'Назад',
+                        ),
+                        const SizedBox(width: 6),
+                        // Title
+                        Expanded(
+                          child: Text(
+                            'Виртуальная карта Kopym',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Общий баланс карты Kopym',
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '${totalBalance.toStringAsFixed(0)} BYN',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
+
               const SizedBox(width: 12),
-              // Optional graphic or placeholder
-              Container(
-                width: 64,
-                height: 40,
-                alignment: Alignment.center,
-                child: const Icon(Icons.account_balance_wallet, color: Colors.white70, size: 36),
+
+              // Right: wallet icon, shifted down to sit between title and balance
+              Transform.translate(
+                offset: const Offset(0, 30),
+                child: Container(
+                  width: 64,
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: const Icon(
+                    Icons.account_balance_wallet,
+                    color: Colors.white70,
+                    size: 36,
+                  ),
+                ),
               ),
             ],
           ),
