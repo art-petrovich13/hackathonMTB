@@ -59,7 +59,7 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_goal.title), backgroundColor: const Color(0xFF0D47A1)),
+      appBar: AppBar(title: Row(children: [ if (_goal.sticker != null) Text(_goal.sticker! + ' ', style: const TextStyle(fontSize: 20)), Text(_goal.title) ]), backgroundColor: const Color(0xFF0D47A1)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -70,7 +70,10 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Text('Текущий баланс', style: TextStyle(color: Colors.black54)),
                 const SizedBox(height: 6),
-                Text(_goal.currentAmount.toStringAsFixed(0), style: const TextStyle(fontSize: 38, fontWeight: FontWeight.bold)),
+                Row(children: [
+                  Expanded(child: Text(_goal.currentAmount.toStringAsFixed(0), style: const TextStyle(fontSize: 38, fontWeight: FontWeight.bold))),
+                  if (_goal.sticker != null) Container(margin: const EdgeInsets.only(left: 8), padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)), child: Text(_goal.sticker!, style: const TextStyle(fontSize: 24))),
+                ]),
                 const SizedBox(height: 8),
                 Row(children: [
                   Expanded(child: ElevatedButton(onPressed: () => _changeAmount(true), style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[300], foregroundColor: Colors.deepPurpleAccent), child: const Padding(padding: EdgeInsets.symmetric(vertical: 12.0), child: Text('ПОПОЛНИТЬ')))),

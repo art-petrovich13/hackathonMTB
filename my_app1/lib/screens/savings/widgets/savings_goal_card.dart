@@ -21,6 +21,15 @@ class SavingsGoalCard extends StatelessWidget {
         children: [
           Row(
             children: [
+              if (goal.sticker != null) ...[
+                Container(
+                  width: 56,
+                  height: 56,
+                  margin: const EdgeInsets.only(right: 12),
+                  decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
+                  child: Center(child: Text(goal.sticker!, style: const TextStyle(fontSize: 28))),
+                ),
+              ],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

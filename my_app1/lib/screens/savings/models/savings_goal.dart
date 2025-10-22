@@ -30,6 +30,7 @@ class SavingsGoal {
   final double targetAmount;
   double currentAmount;
   final List<GoalTransaction> transactions;
+  final String? sticker;
 
   SavingsGoal({
     required this.id,
@@ -37,6 +38,7 @@ class SavingsGoal {
     required this.targetAmount,
     this.currentAmount = 0.0,
     List<GoalTransaction>? transactions,
+    this.sticker,
   }) : transactions = transactions ?? [];
 
   double get progress => targetAmount == 0 ? 0 : (currentAmount / targetAmount).clamp(0.0, 1.0);
@@ -58,17 +60,19 @@ class SavingsGoal {
         'title': title,
         'targetAmount': targetAmount,
         'currentAmount': currentAmount,
-        'transactions': transactions.map((t) => t.toJson()).toList(),
+    'transactions': transactions.map((t) => t.toJson()).toList(),
+    'sticker': sticker,
       };
 
   factory SavingsGoal.fromJson(Map<String, dynamic> json) => SavingsGoal(
         id: json['id'] as String,
         title: json['title'] as String,
         targetAmount: (json['targetAmount'] as num).toDouble(),
-        currentAmount: (json['currentAmount'] as num).toDouble(),
-        transactions: (json['transactions'] as List<dynamic>?)
-                ?.map((e) => GoalTransaction.fromJson(e as Map<String, dynamic>))
-                .toList() ?? [],
+  currentAmount: (json['currentAmount'] as num).toDouble(),
+  transactions: (json['transactions'] as List<dynamic>?)
+    ?.map((e) => GoalTransaction.fromJson(e as Map<String, dynamic>))
+    .toList() ?? [],
+  sticker: json['sticker'] as String?,
       );
 
   static List<SavingsGoal> listFromJson(String jsonStr) {

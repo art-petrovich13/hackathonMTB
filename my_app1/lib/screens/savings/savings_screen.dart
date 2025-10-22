@@ -45,7 +45,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
 
     if (result != null) {
       setState(() {
-        _goals.add(SavingsGoal(id: DateTime.now().millisecondsSinceEpoch.toString(), title: result['title'], targetAmount: result['amount']));
+        _goals.add(SavingsGoal(id: DateTime.now().millisecondsSinceEpoch.toString(), title: result['title'], targetAmount: result['amount'], sticker: result['sticker'] as String?));
         _saveGoals();
       });
     }

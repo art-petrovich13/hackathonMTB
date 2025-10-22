@@ -10,6 +10,7 @@ class AddGoalDialog extends StatefulWidget {
 class _AddGoalDialogState extends State<AddGoalDialog> {
   final _titleCtrl = TextEditingController();
   final _amountCtrl = TextEditingController();
+  String? _selectedSticker;
 
   @override
   void dispose() {
@@ -36,6 +37,30 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
               const SizedBox(height: 8),
               TextField(controller: _titleCtrl, decoration: InputDecoration(filled: true, fillColor: Colors.grey[200], border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none))),
               const SizedBox(height: 12),
+              const Text('Стикер', style: TextStyle(color: Colors.black54)),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  for (final s in ['📦', '🚗', '📱', '🏠', '🎮', '✈️', '🍽️', '🎓', '🛒', '💼'])
+                    GestureDetector(
+                      onTap: () => setState(() => _selectedSticker = s),
+                      child: Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          color: _selectedSticker == s ? Colors.deepPurpleAccent.withOpacity(0.12) : Colors.grey[100],
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: _selectedSticker == s ? Colors.deepPurpleAccent : Colors.transparent),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(s, style: const TextStyle(fontSize: 32)),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 12),
               const Text('Сумма', style: TextStyle(color: Colors.black54)),
               const SizedBox(height: 8),
               TextField(controller: _amountCtrl, keyboardType: TextInputType.number, decoration: InputDecoration(filled: true, fillColor: Colors.grey[200], border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none))),
@@ -49,7 +74,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
                       final title = _titleCtrl.text.trim();
                       final amount = double.tryParse(_amountCtrl.text.replaceAll(',', '.')) ?? 0.0;
                       if (title.isNotEmpty && amount > 0) {
-                        Navigator.pop(context, {'title': title, 'amount': amount});
+                        Navigator.pop(context, {'title': title, 'amount': amount, 'sticker': _selectedSticker});
                       }
                     },
                     child: const Padding(
