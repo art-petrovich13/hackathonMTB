@@ -4,6 +4,7 @@ import 'models/savings_goal.dart';
 import 'widgets/savings_header.dart';
 import 'widgets/savings_goal_card.dart';
 import 'widgets/add_goal_dialog.dart';
+import 'goal_detail_screen.dart';
 
 class SavingsScreen extends StatefulWidget {
   const SavingsScreen({super.key});
@@ -94,7 +95,21 @@ class _SavingsScreenState extends State<SavingsScreen> {
                       itemCount: _goals.length,
                       itemBuilder: (context, index) {
                         final g = _goals[index];
-                        return SavingsGoalCard(goal: g, onAddMoney: () => _addMoney(g));
+                        return GestureDetector(
+                          onTap: () async {
+                            final updated = await Navigator.push<SavingsGoal>(context, MaterialPageRoute(builder: (_) => GoalDetailScreen(goal: g)));
+                            if (updated != null) {
+                              setState(() {
+                                final idx = _goals.indexWhere((el) => el.id == updated.id);
+                                if (idx != -1) {
+                                  _goals[idx] = updated;
+                                  _saveGoals();
+                                }
+                              });
+                            }
+                          },
+                          child: SavingsGoalCard(goal: g, onAddMoney: () => _addMoney(g)),
+                        );
                       },
                     ),
             ),
