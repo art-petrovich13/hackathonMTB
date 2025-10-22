@@ -42,7 +42,14 @@ class CardResultScreen extends StatelessWidget {
             const Text('Вы можете увидеть созданную карточку и счёт в разделе карточек и счетов.'),
             const Spacer(),
             ElevatedButton(
-              onPressed: () => Navigator.popUntil(context, ModalRoute.withName('/')),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/',
+                  (route) => false,
+                  arguments: {'showProducts': true},
+                );
+              },
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 14.0),
                 child: Text('Вернуться на главную', style: TextStyle(fontSize: 16)),

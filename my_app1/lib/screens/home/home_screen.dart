@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/profile_section.dart';
-// imports for product widgets removed (not used yet)
+import 'widgets/primary_card_widget.dart';
+import 'widgets/accounts_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _showProducts = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    if (args != null && args['showProducts'] == true) {
+      if (!_showProducts) {
+        setState(() {
+          _showProducts = true;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,32 +143,70 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, '/card_offer'),
-                      child: Container(
-                        width: double.infinity,
+                    const SizedBox(height: 20),
+                    if (!_showProducts)
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, '/card_offer'),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 24),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: Colors.grey.shade300)),
+                          child: const Column(
+                            children: [
+                              Icon(Icons.add_circle_outline,
+                                  color: Colors.blueAccent, size: 48),
+                              SizedBox(height: 16),
+                              Text(
+                                'У вас нет пока продуктов, давайте добавим',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black87),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    else ...[
+                      Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 24),
+                            horizontal: 16, vertical: 16),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(color: Colors.grey.shade300)),
-                        child: const Column(
-                          children: [
-                            Icon(Icons.add_circle_outline,
-                                color: Colors.blueAccent, size: 48),
-                            SizedBox(height: 16),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.currency_exchange,
+                                color: Colors.blueAccent),
+                            SizedBox(width: 16),
                             Text(
-                              'У вас нет пока продуктов, давайте добавим',
-                              textAlign: TextAlign.center,
+                              'Обмен валюты',
                               style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
+                                  fontSize: 16, fontWeight: FontWeight.w500),
                             ),
+                            Spacer(),
+                            Icon(Icons.chevron_right, color: Colors.grey),
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
+                      const SizedBox(height: 24),
+                      const Text('Карточки',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 12),
+                      const PrimaryCardWidget(),
+                      const SizedBox(height: 24),
+                      const Text('Счета',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 8),
+                      const AccountsSection(),
+                      const SizedBox(height: 24),
+                    ],
                   ],
                 ),
               ),
