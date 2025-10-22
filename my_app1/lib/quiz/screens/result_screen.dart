@@ -14,122 +14,116 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Результаты')),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Результат: ${result.correctCount}/${result.total}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Результат: ${result.correctCount}/${result.total}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pushReplacementNamed(context, '/quiz'),
+                      child: const Text('Пройти ещё раз'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                if (result.recommendations.isNotEmpty) ...[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Рекомендации',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () =>
-                        Navigator.pushReplacementNamed(context, '/quiz'),
-                    child: const Text('Пройти ещё раз'),
+                  const SizedBox(height: 8),
+                  // static list of recommendation cards (no internal scrolling)
+                  Column(
+                    children: result.recommendations
+                        .map(
+                          (r) => Card(
+                            color: Colors.green.shade50,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(r),
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
+                  const SizedBox(height: 12),
                 ],
-              ),
-              const SizedBox(height: 12),
-              if (result.recommendations.isNotEmpty) ...[
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Рекомендации',
+                  child: Text(
+                    'Детали ответов',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
                 const SizedBox(height: 8),
-                ...result.recommendations.map(
-                  (r) => Card(
-                    color: Colors.green.shade50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(r),
-                    ),
-                  ),
+                // static column of question cards; the whole page scrolls
+                Column(
+                  children: [
+                    for (var i = 0; i < questions.length; i++)
+                      _buildQuestionCard(questions[i], i, result),
+                  ],
                 ),
-                const SizedBox(height: 12),
               ],
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Детали ответов',
-                  style: TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: questions.length,
-                  itemBuilder: (ctx, i) {
-                    final q = questions[i];
-                    final user = result.userAnswers[i] ?? [];
-                    final correctSet = q.correctIndices.toSet();
-                    final userSet = user.toSet();
-                    final isCorrect =
-                        userSet.isNotEmpty &&
-                        userSet.containsAll(correctSet) &&
-                        correctSet.containsAll(userSet);
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    q.text,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  isCorrect ? Icons.check_circle : Icons.error,
-                                  color: isCorrect ? Colors.green : Colors.red,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 6,
-                              children: [
-                                // user answers
-                                for (var idx = 0; idx < q.options.length; idx++)
-                                  Chip(
-                                    label: Text(q.options[idx]),
-                                    backgroundColor: user.contains(idx)
-                                        ? (q.correctIndices.contains(idx)
-                                              ? Colors.green.shade100
-                                              : Colors.red.shade100)
-                                        : null,
-                                  ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            if (result.perQuestionFeedback.containsKey(i))
-                              Text(
-                                'Пояснение: ${result.perQuestionFeedback[i]}',
-                              ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuestionCard(QuizQuestion q, int i, QuizResult result) {
+    final user = result.userAnswers[i] ?? [];
+    final correctSet = q.correctIndices.toSet();
+    final userSet = user.toSet();
+    final isCorrect =
+        userSet.isNotEmpty && userSet.containsAll(correctSet) && correctSet.containsAll(userSet);
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(q.text, style: const TextStyle(fontWeight: FontWeight.w600)),
+                ),
+                Icon(isCorrect ? Icons.check_circle : Icons.error, color: isCorrect ? Colors.green : Colors.red),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 6,
+              children: [
+                for (var idx = 0; idx < q.options.length; idx++)
+                  Chip(
+                    label: Text(q.options[idx]),
+                    backgroundColor: user.contains(idx)
+                        ? (q.correctIndices.contains(idx) ? Colors.green.shade100 : Colors.red.shade100)
+                        : null,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (result.perQuestionFeedback.containsKey(i)) Text('Пояснение: ${result.perQuestionFeedback[i]}'),
+          ],
         ),
       ),
     );
