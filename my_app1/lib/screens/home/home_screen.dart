@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/profile_section.dart';
-import 'widgets/primary_card_widget.dart';
-import 'widgets/accounts_section.dart';
+// imports for product widgets removed (not used yet)
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _showProducts = false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,23 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    if (!_showProducts)
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _showProducts = true;
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white24,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                              child: Text('Показать продукты',
-                                  style: TextStyle(color: Colors.white))),
-                        ),
-                      ),
                   ],
                 ),
               ),
@@ -147,8 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    if (!_showProducts)
-                      Container(
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/card_offer'),
+                      child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 24),
@@ -169,63 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                      )
-                    else
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.grey.shade300)),
-                        child: Row(
-                          children: const [
-                            Icon(Icons.currency_exchange,
-                                color: Colors.blueAccent),
-                            SizedBox(width: 16),
-                            Text(
-                              'Обмен валюты',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                            Spacer(),
-                            Icon(Icons.chevron_right, color: Colors.grey),
-                          ],
-                        ),
                       ),
-                    const SizedBox(height: 24),
-                    if (_showProducts) ...[
-                      const Text('Карточки',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 12),
-                      const PrimaryCardWidget(),
-                      const SizedBox(height: 24),
-                      const Text('Счета',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 8),
-                      const AccountsSection(),
-                    ] else ...[
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20.0),
-                          child: Column(
-                            children: [
-                              Text('У вас пока нет карточек',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500)),
-                              SizedBox(height: 16),
-                              Text('У вас пока нет счетов',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500)),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+                    ),
                     const SizedBox(height: 24),
                   ],
                 ),
