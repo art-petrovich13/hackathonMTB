@@ -17,7 +17,11 @@ class ProfileSection extends StatelessWidget {
                 color: Colors.white.withOpacity(0.25),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.person_outline, color: Colors.white, size: 30),
+              child: const Icon(
+                Icons.person_outline,
+                color: Colors.white,
+                size: 30,
+              ),
             ),
             Positioned(
               top: -2,
@@ -28,29 +32,46 @@ class ProfileSection extends StatelessWidget {
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
-                child: const Text('6', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                child: const Text(
+                  '6',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            )
+            ),
           ],
         ),
         const SizedBox(width: 16),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Виктория', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600)),
+            const Text(
+              'Арина',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const SizedBox(height: 6),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.25),
-                borderRadius: BorderRadius.circular(12)
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('Default state', style: TextStyle(color: Colors.white, fontSize: 12)),
+              child: const Text(
+                'Default state',
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
             ),
           ],
         ),
         const Spacer(),
-         // Notification icon from the image is the badge on the profile pic
+        // Notification icon from the image is the badge on the profile pic
       ],
     );
   }

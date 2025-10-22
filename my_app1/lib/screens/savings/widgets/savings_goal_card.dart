@@ -4,7 +4,11 @@ import '../models/savings_goal.dart';
 class SavingsGoalCard extends StatelessWidget {
   final SavingsGoal goal;
   final VoidCallback onAddMoney;
-  const SavingsGoalCard({super.key, required this.goal, required this.onAddMoney});
+  const SavingsGoalCard({
+    super.key,
+    required this.goal,
+    required this.onAddMoney,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,9 @@ class SavingsGoalCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0,2))],
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,23 +32,47 @@ class SavingsGoalCard extends StatelessWidget {
                   width: 56,
                   height: 56,
                   margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
-                  child: Center(child: Text(goal.sticker!, style: const TextStyle(fontSize: 28))),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: Text(
+                      goal.sticker!,
+                      style: const TextStyle(fontSize: 28),
+                    ),
+                  ),
                 ),
               ],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(goal.title, style: const TextStyle(fontSize: 16, color: Colors.black54)),
+                    Text(
+                      goal.title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                    ),
                     const SizedBox(height: 8),
-                    Text(goal.currentAmount.toStringAsFixed(0), style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+                    Text(
+                      goal.currentAmount.toStringAsFixed(0),
+                      style: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
               IconButton(
                 onPressed: onAddMoney,
-                icon: Icon(Icons.person_outline, color: Colors.deepPurpleAccent, size: 48),
+                icon: Icon(
+                  Icons.download,
+                  color: Colors.blue,
+                  size: 48,
+                ),
               ),
             ],
           ),
@@ -53,11 +83,16 @@ class SavingsGoalCard extends StatelessWidget {
               value: goal.progress,
               minHeight: 12,
               backgroundColor: Colors.grey.shade200,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.deepPurpleAccent,
+              ),
             ),
           ),
           const SizedBox(height: 6),
-          Text('${(goal.progress * 100).toStringAsFixed(2)}% (Осталось: ${(goal.targetAmount - goal.currentAmount).toStringAsFixed(0)})', style: const TextStyle(fontSize: 12, color: Colors.black54)),
+          Text(
+            '${(goal.progress * 100).toStringAsFixed(2)}% (Осталось: ${(goal.targetAmount - goal.currentAmount).toStringAsFixed(0)})',
+            style: const TextStyle(fontSize: 12, color: Colors.black54),
+          ),
         ],
       ),
     );
