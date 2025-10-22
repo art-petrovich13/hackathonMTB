@@ -185,8 +185,7 @@ class TestService {
     // Если есть близкий второй результат, добавляем гибридное описание
     String hybridNote = '';
     if (hasCloseSecond) {
-      var sorted = scores.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
-      String secondCategory = sorted[1].key;
+  var sorted = scores.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
       
       Map<String, String> hybridCombinations = {
         'tech_creative': '\n\n🎯 **Гибридный профиль**: Технический гений с творческим подходом! Вы можете создавать инновационные продукты на стыке технологий и дизайна.',
