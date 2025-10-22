@@ -121,6 +121,33 @@ class InterviewService {
     questions.shuffle();
     return questions.take(5).toList();
   }
+  
+  /// Recommended learning resources (books/courses) per field.
+  /// Each resource: title, type, description, bonusPoints
+  static Map<String, List<Map<String, dynamic>>> getRecommendedResources() {
+    return {
+      'IT и Технологии': [
+        {
+          'title': 'Алгоритмы и структуры данных — курс',
+          'type': 'course',
+          'description': 'Практический курс по алгоритмам с задачами и проектом.',
+          'bonusPoints': 10,
+        },
+        {
+          'title': 'Книга: Чистый код',
+          'type': 'book',
+          'description': 'Классика по качественному написанию кода и архитектуре.',
+          'bonusPoints': 5,
+        },
+        {
+          'title': 'Практика DevOps: CI/CD',
+          'type': 'course',
+          'description': 'Курс по настройке CI/CD, контейнеризации и автоматизации.',
+          'bonusPoints': 8,
+        },
+      ],
+    };
+  }
 
   static Map<String, dynamic> evaluateAnswer(String userAnswer, CareerInterviewQuestion question) {
     // Normalize and enrich evaluation
