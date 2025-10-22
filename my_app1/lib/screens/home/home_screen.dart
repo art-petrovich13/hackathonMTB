@@ -3,13 +3,20 @@ import 'widgets/profile_section.dart';
 import 'widgets/primary_card_widget.dart';
 import 'widgets/accounts_section.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _showProducts = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    const primaryColor = Color(0xFF1DA1FF);
+    const primaryColor = Color(0xFF0D47A1);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
@@ -20,9 +27,9 @@ class HomeScreen extends StatelessWidget {
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Color(0xFF1DA1FF), Color(0xFF2A9DF4)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
+                  colors: [Color(0xFF0D47A1), Color(0xFF42A5F5)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(22),
                   bottomRight: Radius.circular(22)),
@@ -38,14 +45,6 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        const Text('Default card',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 14)),
-                        const SizedBox(width: 8),
-                        Text('4*5783',
-                            style: TextStyle(
-                                color: Colors.white.withOpacity(0.8),
-                                fontSize: 14)),
                         const SizedBox(width: 4),
                         Icon(Icons.info_outline,
                             color: Colors.white.withOpacity(0.8), size: 18),
@@ -54,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: const [
-                        Text('1000.00 BYN',
+                        Text('00.00 BYN',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 32,
@@ -72,7 +71,8 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         _actionButton(Icons.sync_alt, 'Перевести', primaryColor),
                         const SizedBox(width: 12),
-                        _actionButton(Icons.credit_card, 'Оплатить', primaryColor),
+                        _actionButton(
+                            Icons.credit_card, 'Оплатить', primaryColor),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -81,27 +81,57 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, '/career'),
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/career'),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(10)),
-                              child: const Center(child: Text('Go to Career', style: TextStyle(color: Colors.white))),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white24,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Center(
+                                  child: Text('Go to Career',
+                                      style: TextStyle(color: Colors.white))),
                             ),
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: GestureDetector(
-                            onTap: () => Navigator.pushNamed(context, '/savings'),
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/savings'),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(10)),
-                              child: const Center(child: Text('Go to Savings', style: TextStyle(color: Colors.white))),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white24,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Center(
+                                  child: Text('Go to Savings',
+                                      style: TextStyle(color: Colors.white))),
                             ),
                           ),
                         ),
                       ],
                     ),
+                    const SizedBox(height: 8),
+                    if (!_showProducts)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _showProducts = true;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white24,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                              child: Text('Показать продукты',
+                                  style: TextStyle(color: Colors.white))),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -117,45 +147,85 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
-                    // Currency exchange button
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 14),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                            colors: [Color(0xFF1DA1FF), Color(0xFF2A9DF4)]),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Обмен валюты по выгодному курсу',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16)),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              shape: BoxShape.circle,
+                    if (!_showProducts)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 24),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: const Column(
+                          children: [
+                            Icon(Icons.add_circle_outline,
+                                color: Colors.blueAccent, size: 48),
+                            SizedBox(height: 16),
+                            Text(
+                              'У вас нет пока продуктов, давайте добавим',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black87),
                             ),
-                            child: const Icon(Icons.currency_exchange,
-                                color: Colors.white),
-                          )
-                        ],
+                          ],
+                        ),
+                      )
+                    else
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.grey.shade300)),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.currency_exchange,
+                                color: Colors.blueAccent),
+                            SizedBox(width: 16),
+                            Text(
+                              'Обмен валюты',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            Spacer(),
+                            Icon(Icons.chevron_right, color: Colors.grey),
+                          ],
+                        ),
                       ),
-                    ),
                     const SizedBox(height: 24),
-                    const Text('Карточки',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 12),
-                    const PrimaryCardWidget(),
-                    const SizedBox(height: 24),
-                    const Text('Счета',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600)),
-                     const SizedBox(height: 12),
-                    const AccountsSection(),
+                    if (_showProducts) ...[
+                      const Text('Карточки',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 12),
+                      const PrimaryCardWidget(),
+                      const SizedBox(height: 24),
+                      const Text('Счета',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 8),
+                      const AccountsSection(),
+                    ] else ...[
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          child: Column(
+                            children: [
+                              Text('У вас пока нет карточек',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
+                              SizedBox(height: 16),
+                              Text('У вас пока нет счетов',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -167,11 +237,11 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         height: 80,
         decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.black12, width: 1.0))
-        ),
+            color: Colors.white,
+            border:
+                Border(top: BorderSide(color: Colors.black12, width: 1.0))),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          _BottomNavItem(
+          const _BottomNavItem(
               label: 'Главная',
               icon: Icons.ac_unit, // Placeholder for custom M icon
               isActive: true),
@@ -213,7 +283,7 @@ class _BottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? const Color(0xFF1DA1FF) : Colors.black54;
+    final color = isActive ? const Color(0xFF0D47A1) : Colors.black54;
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Icon(icon, color: color, size: 28),
       const SizedBox(height: 6),
