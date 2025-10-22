@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home/home_screen.dart';
+import 'quiz/screens/quiz_screen.dart';
 import 'screens/career_hub/career_hub_screen.dart';
 import 'screens/savings/savings_screen.dart';
 import 'screens/settings/settings_screen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),
+        '/quiz': (context) => const QuizScreen(),
         '/career': (context) => const CareerHubScreen(),
         '/savings': (context) => const SavingsScreen(),
         '/settings': (context) => const SettingsScreen(),
