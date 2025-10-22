@@ -168,11 +168,11 @@ class ResultsScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => InterviewScreen(careerField: testResult.careerField),
-                    ),
-                  );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InterviewScreen(careerField: testResult.careerField, testResult: testResult),
+                      ),
+                    );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,

@@ -123,40 +123,97 @@ class InterviewService {
   }
 
   static Map<String, dynamic> evaluateAnswer(String userAnswer, CareerInterviewQuestion question) {
-    int score = 0;
-    List<String> matchedKeywords = [];
-    List<String> missingKeywords = [];
-    String feedback = '';
+    // Normalize and enrich evaluation
+    final text = userAnswer.trim();
+    final words = text.isEmpty ? 0 : text.split(RegExp(r'\s+')).length;
 
-    for (String keyword in question.keywords) {
-      if (userAnswer.toLowerCase().contains(keyword.toLowerCase())) {
-        score += 10;
+    // Keyword matching
+    final matchedKeywords = <String>[];
+    final missingKeywords = <String>[];
+    for (final keyword in question.keywords) {
+      if (text.toLowerCase().contains(keyword.toLowerCase())) {
         matchedKeywords.add(keyword);
       } else {
         missingKeywords.add(keyword);
       }
     }
 
-    if (userAnswer.length > 100) score += 20;
-    else if (userAnswer.length > 50) score += 10;
+    final keywordScore = question.keywords.isEmpty
+        ? 0.0
+        : (matchedKeywords.length / question.keywords.length).clamp(0.0, 1.0);
 
-    if (score >= 60) {
-      feedback = 'Отличный ответ! Вы хорошо раскрыли тему и использовали ключевые аспекты.';
-    } else if (score >= 40) {
-      feedback = 'Хороший ответ, но можно добавить больше деталей и примеров.';
-    } else {
-      feedback = 'Ответ слишком краткий. Попробуйте добавить конкретные примеры и детали.';
+    // Length/coverage score (prefers substantive answers, penalizes overly short replies)
+    final lengthScore = (words / 30).clamp(0.0, 1.0);
+
+    // Structure score: look for presence of example words like "пример", "например", «ситуация», or use of past tense verbs
+    double structureScore = 0.0;
+    final structureHints = ['пример', 'например', 'когда', 'в проекте', 'в задаче', 'достиг', 'решил'];
+    for (final h in structureHints) {
+      if (text.toLowerCase().contains(h)) {
+        structureScore = 1.0;
+        break;
+      }
     }
 
+    // Confidence / tone: simple heuristic using exclamation or confident phrases
+    double confidenceScore = 0.0;
+    final confHints = ['я уверен', 'я могу', 'я сделал', 'могу предложить', 'я достиг'];
+    for (final h in confHints) {
+      if (text.toLowerCase().contains(h)) {
+        confidenceScore = 1.0;
+        break;
+      }
+    }
+
+    // Combine into normalized score (0..100)
+    final combined = (keywordScore * 0.5 + lengthScore * 0.25 + structureScore * 0.15 + confidenceScore * 0.1).clamp(0.0, 1.0);
+    final score = (combined * 100).round();
+
+    // Build actionable feedback
+    final strengths = <String>[];
+    final improvements = <String>[];
+
+    if (keywordScore > 0.6) strengths.add('Вы упомянули ключевые термины, релевантные вопросу.');
+    if (structureScore > 0.0) strengths.add('Ответ содержит конкретный пример/ситуацию.');
+    if (confidenceScore > 0.0) strengths.add('Тон ответа выглядит уверенным.');
+    if (lengthScore > 0.6) strengths.add('Объем ответа достаточен для раскрытия темы.');
+
+    if (keywordScore < 0.5 && question.keywords.isNotEmpty) improvements.add('Упомяните релевантные ключевые слова: ${missingKeywords.join(', ')}.');
+    if (structureScore == 0.0) improvements.add('Добавьте конкретный пример или ситуацию (Context → Action → Result).');
+    if (lengthScore < 0.4) improvements.add('Расширьте ответ: опишите конкретный пример, ваши действия и результат.');
+    if (confidenceScore == 0.0) improvements.add('Используйте уверенные формулировки и глаголы действия ("я сделал", "я достиг").');
+
+    // Produce an improvedAnswer template based on idealAnswer and missing keywords
+    String improvedAnswer = question.idealAnswer;
     if (missingKeywords.isNotEmpty) {
-      feedback += '\n\nРекомендуется упомянуть: ${missingKeywords.join(', ')}';
+      improvedAnswer += '\nРекомендуется упомянуть: ${missingKeywords.join(', ')}.';
     }
+
+    // Short coach message with exact suggestions how to answer
+    final coachTips = <String>[];
+    coachTips.add('Структура ответа: 1) Контекст — кратко опишите ситуацию; 2) Действие — что вы сделали; 3) Результат — что достигли (цифры/эффект).');
+    if (missingKeywords.isNotEmpty) coachTips.add('Включите в ответ ключевые слова: ${missingKeywords.join(', ')}.');
+    coachTips.add('Держите ответ чётким: 2–4 предложения + 1 пример (если возможно).');
+
+    String feedback = '';
+    if (score >= 80) feedback = 'Отличный ответ: вы дали структурированный и содержательный ответ.';
+    else if (score >= 60) feedback = 'Хороший ответ, но его можно усилить конкретными примерами и ключевыми словами.';
+    else if (score >= 40) feedback = 'Ответ средний: добавьте примеры и ключевые термины, опишите результат ваших действий.';
+    else feedback = 'Ответ слабый: добавьте структуру (Context → Action → Result), конкретные примеры и ключевые слова.';
 
     return {
       'score': score.clamp(0, 100),
+      'keywordScore': (keywordScore * 100).round(),
+      'lengthScore': (lengthScore * 100).round(),
+      'structureScore': (structureScore * 100).round(),
+      'confidenceScore': (confidenceScore * 100).round(),
       'matchedKeywords': matchedKeywords,
       'missingKeywords': missingKeywords,
+      'strengths': strengths,
+      'improvements': improvements,
       'feedback': feedback,
+      'coachTips': coachTips,
+      'improvedAnswer': improvedAnswer,
       'idealAnswer': question.idealAnswer,
     };
   }
