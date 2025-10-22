@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/profile_section.dart';
 import 'widgets/primary_card_widget.dart';
+import 'widgets/primary_card_widget2.dart';
 import 'widgets/accounts_section.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -128,6 +129,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 8),
+                    Expanded(
+                          child: GestureDetector(
+                            onTap: () =>
+                                Navigator.pushNamed(context, '/quiz'),
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white24,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Center(
+                                  child: Text('Go to Quiz',
+                                      style: TextStyle(color: Colors.white))),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
                   ],
                 ),
               ),
@@ -199,6 +217,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       const SizedBox(height: 12),
                       const PrimaryCardWidget(),
+                      const SizedBox(height: 12),
+                      const PrimaryCardWidget2(),
                       const SizedBox(height: 24),
                       const Text('Счета',
                           style: TextStyle(
