@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../quiz/screens/quiz_screen.dart';
+import '../../../career_hub/career_hub_screen.dart';
 
 class EarnPointsScreen extends StatelessWidget {
   const EarnPointsScreen({super.key});
@@ -65,7 +67,7 @@ class EarnPointsScreen extends StatelessWidget {
               text: 'Пройдите квиз по знанию МТБанка правильно и получите 2 манечки',
               buttonText: 'Пройти квиз',
               onTap: () {
-                // TODO: hook quiz navigation
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen()));
               },
             ),
 
@@ -77,7 +79,7 @@ class EarnPointsScreen extends StatelessWidget {
               text: 'Пройдите тест на определение профориентации, который поможет Вам определиться с профессией и получите 3 манечки',
               buttonText: 'Пройти тест',
               onTap: () {
-                // TODO: hook prof orientation navigation
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const CareerHubScreen()));
               },
             ),
 
@@ -89,7 +91,8 @@ class EarnPointsScreen extends StatelessWidget {
               text: 'Пройдите эмулятор собеседования на вашу желаемую профессию, который оценит Ваши ответы и поможет чувствовать себя увереннее на реальных собеседованиях и получите 2 манечки',
               buttonText: 'Пройти собеседование',
               onTap: () {
-                // TODO: hook interview navigation
+                // Redirecting to Career Hub for interview tools
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const CareerHubScreen()));
               },
             ),
 

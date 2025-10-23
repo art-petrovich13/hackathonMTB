@@ -24,7 +24,7 @@ class PrimaryCardWidget extends StatelessWidget {
                   width: 40,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: Colors.orangeAccent,
+                    color: const Color.fromARGB(255, 9, 9, 9),
                     borderRadius: BorderRadius.circular(6),
                   ),
                 ),
