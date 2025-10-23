@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 
 class ActionButtonsRow extends StatelessWidget {
-  const ActionButtonsRow({super.key});
+  final void Function()? onPointsTap;
+  const ActionButtonsRow({super.key, this.onPointsTap});
 
-  Widget _button(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0,2))],
+  Widget _button(IconData icon, String label, {void Function()? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0,2))],
+            ),
+            child: Icon(icon, color: const Color(0xFF0D47A1)),
           ),
-          child: Icon(icon, color: const Color(0xFF0D47A1)),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 12, color: Colors.black87)),
-      ],
+          const SizedBox(height: 8),
+          Text(label, style: const TextStyle(fontSize: 12, color: Colors.black87)),
+        ],
+      ),
     );
   }
 
@@ -36,7 +40,7 @@ class ActionButtonsRow extends StatelessWidget {
           _button(Icons.download, 'Пополнить'),
           _button(Icons.sync_alt, 'Перевести'),
           _button(Icons.credit_card, 'Оплатить'),
-          _button(Icons.card_giftcard, 'Баллы'),
+          _button(Icons.card_giftcard, 'Баллы', onTap: onPointsTap),
         ],
       ),
     );

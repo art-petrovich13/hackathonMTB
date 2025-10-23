@@ -15,15 +15,14 @@ class CardHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Card visual
+          // Card visual - use whitecard.png as background and keep text overlays
           Container(
             height: 170,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              gradient: const LinearGradient(
-                colors: [Color(0xFF2E7D32), Color(0xFF66BB6A)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+              image: const DecorationImage(
+                image: AssetImage('lib/assets/whitecard.png'),
+                fit: BoxFit.cover,
               ),
             ),
             child: Padding(
@@ -31,15 +30,16 @@ class CardHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('КАКТУС BYN', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                  // If the card image is light, use dark text; adjust color as needed
+                  const Text('КАКТУС BYN', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600)),
                   const Spacer(),
-                  const Text('97.27 BYN', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
+                  const Text('97.27 BYN', style: TextStyle(color: Colors.black87, fontSize: 28, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   Row(
                     children: const [
-                      Text('5*0042 • 09/28', style: TextStyle(color: Colors.white70)),
+                      Text('5*0042 • 09/28', style: TextStyle(color: Colors.black54)),
                       Spacer(),
-                      Text('0.00 баллов', style: TextStyle(color: Colors.white70)),
+                      Text('0.00 баллов', style: TextStyle(color: Colors.black54)),
                     ],
                   ),
                 ],

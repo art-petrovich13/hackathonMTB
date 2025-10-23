@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/card_header.dart';
 import 'widgets/action_buttons_row.dart';
+import 'points/points_screen.dart';
 import 'widgets/tabs_section.dart';
 
 class CardScreen extends StatelessWidget {
@@ -23,12 +24,14 @@ class CardScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            CardHeader(),
-            SizedBox(height: 18),
-            ActionButtonsRow(),
-            SizedBox(height: 8),
-            TabsSection(),
+          children: [
+            const CardHeader(),
+            const SizedBox(height: 18),
+            ActionButtonsRow(
+              onPointsTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PointsScreen())),
+            ),
+            const SizedBox(height: 8),
+            const TabsSection(),
           ],
         ),
       ),

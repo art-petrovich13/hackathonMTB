@@ -8,7 +8,7 @@ class SavingsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.20,
+      height: size.height * 0.30,
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -51,7 +51,7 @@ class SavingsHeader extends StatelessWidget {
                         // Title
                         Expanded(
                           child: Text(
-                            'Виртуальная карта Kopym',
+                            'Виртуальная копилка',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 22,
@@ -75,6 +75,17 @@ class SavingsHeader extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    const SizedBox(height: 12),
+                    // Action buttons row (Пополнить, Перевести, Оплатить)
+                    Row(
+                      children: [
+                        _actionButton(Icons.download, 'Пополнить', Colors.white),
+                        const SizedBox(width: 10),
+                        _actionButton(Icons.sync_alt, 'Перевести', Colors.white),
+                        const SizedBox(width: 10),
+                        _actionButton(Icons.credit_card, 'Оплатить', Colors.white),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -97,6 +108,29 @@ class SavingsHeader extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _actionButton(IconData icon, String label, Color color) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white24,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color, size: 20),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: TextStyle(color: color.withOpacity(0.95), fontSize: 12),
+            ),
+          ],
         ),
       ),
     );
