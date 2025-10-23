@@ -71,13 +71,19 @@ class _CareerTestScreenState extends State<CareerTestScreen> {
   @override
   Widget build(BuildContext context) {
     final currentQuestion = TestService.questions[_currentQuestionIndex];
+    const primaryBlue = Color(0xFF0D47A1);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Профориентационный тест'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
+        elevation: 1,
+        iconTheme: const IconThemeData(color: primaryBlue),
+        titleTextStyle: const TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.w600),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
+          color: primaryBlue,
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -88,8 +94,8 @@ class _CareerTestScreenState extends State<CareerTestScreen> {
           children: [
             LinearProgressIndicator(
               value: _progress,
-              backgroundColor: Colors.grey[300],
-              color: Colors.green,
+              backgroundColor: const Color(0xFFE3F2FD),
+              color: primaryBlue,
               minHeight: 8,
               borderRadius: BorderRadius.circular(4),
             ),
@@ -99,7 +105,7 @@ class _CareerTestScreenState extends State<CareerTestScreen> {
               'Вопрос ${_currentQuestionIndex + 1} из ${TestService.questions.length}',
               style: const TextStyle(
                 fontSize: 16,
-                color: Colors.grey,
+                color: Color(0xFF607D8B),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -128,7 +134,7 @@ class _CareerTestScreenState extends State<CareerTestScreen> {
                         style: const TextStyle(fontSize: 16),
                       ),
                       trailing: _answers[_currentQuestionIndex] == index
-                          ? const Icon(Icons.check_circle, color: Colors.green)
+                          ? const Icon(Icons.check_circle, color: primaryBlue)
                           : null,
                       onTap: () => _answerQuestion(index),
                     ),
@@ -143,6 +149,10 @@ class _CareerTestScreenState extends State<CareerTestScreen> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: _previousQuestion,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: primaryBlue,
+                        side: const BorderSide(color: primaryBlue),
+                      ),
                       child: const Text('Назад'),
                     ),
                   ),
@@ -153,7 +163,7 @@ class _CareerTestScreenState extends State<CareerTestScreen> {
                         ? _completeTest
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: primaryBlue,
                     ),
                     child: Text(
                       _currentQuestionIndex == TestService.questions.length - 1
