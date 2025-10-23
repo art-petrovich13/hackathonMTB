@@ -253,8 +253,7 @@ class _InterviewResultsState extends State<InterviewResults> {
                                       ...((controller
                                                   .evaluations[idx]!['strengths'])
                                               as List)
-                                          .map((s) => Text('• $s'))
-                                          .toList(),
+                                          .map((s) => Text('• $s')),
                                       const SizedBox(height: 8),
                                     ],
 
@@ -327,8 +326,7 @@ class _InterviewResultsState extends State<InterviewResults> {
                                                   ListTileControlAffinity
                                                       .leading,
                                             );
-                                          })
-                                          .toList(),
+                                          }),
                                       const SizedBox(height: 8),
                                     ],
 
@@ -346,8 +344,7 @@ class _InterviewResultsState extends State<InterviewResults> {
                                       ...((controller
                                                   .evaluations[idx]!['coachTips'])
                                               as List)
-                                          .map((s) => Text('• $s'))
-                                          .toList(),
+                                          .map((s) => Text('• $s')),
                                       const SizedBox(height: 8),
                                     ],
 
@@ -395,8 +392,6 @@ class _InterviewResultsState extends State<InterviewResults> {
               builder: (ctx) {
                 final prob = (controller.estimatePassProbability() * 100)
                     .round();
-                final label = controller.passCategoryLabel();
-                final color = controller.passCategoryColor();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -409,7 +404,7 @@ class _InterviewResultsState extends State<InterviewResults> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        
+
                         const SizedBox(width: 12),
                       ],
                     ),

@@ -68,11 +68,7 @@ class SavingsGoalCard extends StatelessWidget {
               ),
               IconButton(
                 onPressed: onAddMoney,
-                icon: Icon(
-                  Icons.download,
-                  color: Colors.blue,
-                  size: 48,
-                ),
+                icon: Icon(Icons.sync_alt, color: Colors.blue, size: 48),
               ),
             ],
           ),
