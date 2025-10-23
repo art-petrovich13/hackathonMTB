@@ -27,7 +27,7 @@ class InterviewInput extends StatelessWidget {
           const SizedBox(width: 8),
           ElevatedButton(
             onPressed: controller.sendAnswer,
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12)),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12)),
             child: const Icon(Icons.send, color: Colors.white),
           )
         ],

@@ -8,46 +8,62 @@ class InterviewChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: ListView.builder(
-          reverse: true,
-          itemCount: controller.messages.length + (controller.interviewerTyping ? 1 : 0),
-          itemBuilder: (context, index) {
-            if (controller.interviewerTyping && index == 0) {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(12)),
-                    child: const SizedBox(width: 50, height: 12, child: Center(child: Text('...'))),
-                  ),
-                ),
-              );
-            }
+    const primaryColor = Color(0xFF0D47A1);
+    final interviewerBubbleColor = Colors.blue.shade50;
 
-            final msg = controller.messages[controller.messages.length - 1 - (index - (controller.interviewerTyping ? 1 : 0))];
-            return Align(
-              alignment: msg.isInterviewer ? Alignment.centerLeft : Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: msg.isInterviewer ? Colors.grey[200] : Colors.orange[300],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(msg.text),
+    return ListView.builder(
+      reverse: true,
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      itemCount: controller.messages.length + (controller.interviewerTyping ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (controller.interviewerTyping && index == 0) {
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+              decoration: BoxDecoration(
+                color: interviewerBubbleColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
                 ),
               ),
-            );
-          },
-        ),
-      ),
+              child: const Text("...", style: TextStyle(color: Colors.black54)),
+            ),
+          );
+        }
+
+        final reversedIndex = controller.messages.length - 1 - (index - (controller.interviewerTyping ? 1 : 0));
+        final msg = controller.messages[reversedIndex];
+        final isUserMessage = !msg.isInterviewer;
+
+        return Align(
+          alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+            decoration: BoxDecoration(
+              color: isUserMessage ? primaryColor : interviewerBubbleColor,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(16),
+                topRight: const Radius.circular(16),
+                bottomLeft: isUserMessage ? const Radius.circular(16) : const Radius.circular(0),
+                bottomRight: isUserMessage ? const Radius.circular(0) : const Radius.circular(16),
+              ),
+            ),
+            child: Text(
+              msg.text,
+              style: TextStyle(
+                color: isUserMessage ? Colors.white : Colors.black87,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
